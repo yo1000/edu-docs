@@ -1,0 +1,3 @@
+# Maven Wrapper：WSL・Linux・macOS で ./mvnw を実行できるよう、改行コードを固定する
+/mvnw text eol=lf
+*.cmd text eol=crlf
