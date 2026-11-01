@@ -35,7 +35,35 @@ class ProductRepositoryExerciseTest {
 
     // TODO 演習5-1：在庫数が 0・9・10・20 の4つの商品を @Sql で登録し、
     //   findByStockLessThanOrderByStockAsc(10) が、在庫 0 と 9 の商品を、この順に返すことを確かめる
+    @Test
+    @Sql(statements = """
+            insert into products (id, name, price, stock) values (301, 'ノート', 200, 20);
+            insert into products (id, name, price, stock) values (302, 'ボールペン', 120, 9);
+            insert into products (id, name, price, stock) values (303, '万年筆', 5000, 0);
+            insert into products (id, name, price, stock) values (304, '消しゴム', 80, 10);
+            """)
+    @DisplayName("在庫数が threshold 未満の商品を、在庫の少ない順に返す")
+    void findByStockLessThan() {
+        List<Product> products = productRepository.findByStockLessThanOrderByStockAsc(10);
+
+        Assertions.assertThat(products)
+                .extracting(Product::name, Product::stock)
+                .containsExactly(
+                        Assertions.tuple("万年筆", 0),
+                        Assertions.tuple("ボールペン", 9));
+    }
 
     // TODO 演習5-2：在庫数が 10・20 の2つの商品を @Sql で登録し、
     //   findByStockLessThanOrderByStockAsc(10) が、空のリストを返すことを確かめる
+    @Test
+    @Sql(statements = """
+            insert into products (id, name, price, stock) values (301, 'ノート', 200, 20);
+            insert into products (id, name, price, stock) values (304, '消しゴム', 80, 10);
+            """)
+    @DisplayName("在庫数が threshold 未満の商品がなければ、空のリストを返す")
+    void findByStockLessThanEmpty() {
+        List<Product> products = productRepository.findByStockLessThanOrderByStockAsc(10);
+
+        Assertions.assertThat(products).isEmpty();
+    }
 }

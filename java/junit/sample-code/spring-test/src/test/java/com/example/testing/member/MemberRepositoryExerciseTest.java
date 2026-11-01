@@ -36,7 +36,29 @@ class MemberRepositoryExerciseTest {
 
     // TODO 演習6-1：会員（佐藤・sato@example.com・GOLD）を TestEntityManager で登録し、
     //   existsByEmail("sato@example.com") が true を返すことを確かめる
+    @Test
+    @DisplayName("登録済みのメールアドレスなら true")
+    void existsByEmail() {
+        entityManager.persist(new Member("佐藤", "sato@example.com", MemberRank.GOLD));
+        entityManager.flush();
+        entityManager.clear();
+
+        boolean exists = memberRepository.existsByEmail("sato@example.com");
+
+        Assertions.assertThat(exists).isTrue();
+    }
 
     // TODO 演習6-2：同じ会員を登録し、
     //   existsByEmail("suzuki@example.com") が false を返すことを確かめる
+    @Test
+    @DisplayName("登録されていないメールアドレスなら false")
+    void notExistsByEmail() {
+        entityManager.persist(new Member("佐藤", "sato@example.com", MemberRank.GOLD));
+        entityManager.flush();
+        entityManager.clear();
+
+        boolean exists = memberRepository.existsByEmail("suzuki@example.com");
+
+        Assertions.assertThat(exists).isFalse();
+    }
 }

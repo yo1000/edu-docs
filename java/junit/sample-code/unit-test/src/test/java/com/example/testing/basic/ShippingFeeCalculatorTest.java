@@ -30,11 +30,48 @@ class ShippingFeeCalculatorTest {
     }
 
     // TODO 演習1：購入金額が 5,000 円ちょうどなら、送料が 0 円になることを確かめる
+    @Test
+    @DisplayName("購入金額が5,000円ちょうどなら送料は0円")
+    void just5000() {
+        ShippingFeeCalculator calculator = new ShippingFeeCalculator();
+
+        int actual = calculator.calculate(5000, false);
+
+        Assertions.assertEquals(0, actual);
+    }
 
     // TODO 演習1：離島への配送で、購入金額が 4,999 円なら、送料が 1,500 円になることを確かめる
+    @Test
+    @DisplayName("離島への配送で、購入金額が5,000円未満なら送料は1,500円")
+    void remoteIslandUnder5000() {
+        ShippingFeeCalculator calculator = new ShippingFeeCalculator();
+
+        int actual = calculator.calculate(4999, true);
+
+        Assertions.assertEquals(1500, actual);
+    }
 
     // TODO 演習1：離島への配送で、購入金額が 5,000 円なら、送料が 1,000 円になることを確かめる
+    @Test
+    @DisplayName("離島への配送で、購入金額が5,000円以上なら送料は1,000円")
+    void remoteIslandOver5000() {
+        ShippingFeeCalculator calculator = new ShippingFeeCalculator();
+
+        int actual = calculator.calculate(5000, true);
+
+        Assertions.assertEquals(1000, actual);
+    }
 
     // TODO 演習2：購入金額が -1 円なら IllegalArgumentException になり、
     //   メッセージが「購入金額は0以上にしてください: -1」であることを確かめる
+    @Test
+    @DisplayName("購入金額がマイナスなら IllegalArgumentException")
+    void negativeTotalPrice() {
+        ShippingFeeCalculator calculator = new ShippingFeeCalculator();
+
+        IllegalArgumentException e = Assertions.assertThrows(IllegalArgumentException.class,
+                () -> calculator.calculate(-1, false));
+
+        Assertions.assertEquals("購入金額は0以上にしてください: -1", e.getMessage());
+    }
 }
