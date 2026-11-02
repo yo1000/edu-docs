@@ -1,6 +1,6 @@
 package com.example.testing.basic;
 
-import org.assertj.core.api.Assertions;
+import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.CsvSource;
@@ -10,6 +10,8 @@ import org.junit.jupiter.params.provider.CsvSource;
  * <p>
  * 値のソースは @CsvSource(delimiter = '|', textBlock = """ … """) を基本にする。
  * 「#」で始まる行はコメントとして無視される（閉じる """ と同じ字下げで書く）。
+ * <p>
+ * アサーションは、ここまでに扱った JUnit 標準の Assertions を使う（AssertJ はこのあとで扱う）。
  */
 @DisplayName("PriceCalculator：パラメタライズドテスト")
 class PriceCalculatorParameterizedTest {
@@ -28,7 +30,7 @@ class PriceCalculatorParameterizedTest {
 
         int actual = calculator.calculate(unitPrice, quantity, rank);
 
-        Assertions.assertThat(actual).isEqualTo(expected);
+        Assertions.assertEquals(expected, actual);
     }
 
     @ParameterizedTest(name = "数量{0}個 → IllegalArgumentException")
@@ -42,7 +44,7 @@ class PriceCalculatorParameterizedTest {
     void invalidQuantity(int quantity) {
         PriceCalculator calculator = new PriceCalculator();
 
-        Assertions.assertThatThrownBy(() -> calculator.calculate(1000, quantity, MemberRank.REGULAR))
-                .isInstanceOf(IllegalArgumentException.class);
+        Assertions.assertThrows(IllegalArgumentException.class,
+                () -> calculator.calculate(1000, quantity, MemberRank.REGULAR));
     }
 }

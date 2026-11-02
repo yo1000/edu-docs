@@ -1,6 +1,6 @@
 package com.example.testing.basic;
 
-import org.assertj.core.api.Assertions;
+import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.CsvSource;
@@ -35,6 +35,6 @@ class ProductCodeValidatorTest {
 
         boolean actual = validator.isValid(code);
 
-        Assertions.assertThat(actual).isEqualTo(expected);
+        Assertions.assertEquals(expected, actual);
     }
 }

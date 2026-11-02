@@ -15,7 +15,7 @@ import org.mockito.Mockito;
  */
 class OrderServiceTest {
 
-    @Test                                          // JUnit：テストメソッドの目印
+    @Test // JUnit：テストメソッドの目印
     void placeOrder() {
         // Mockito：モックを作り、振る舞いを決める
         StockRepository stockRepository = Mockito.mock(StockRepository.class);
@@ -25,7 +25,7 @@ class OrderServiceTest {
 
         Order order = orderService.placeOrder("A001", 1000, 2, MemberRank.GOLD);
 
-        Assertions.assertThat(order.totalPrice()).isEqualTo(1980);   // AssertJ：判定する
-        Mockito.verify(stockRepository).decrease("A001", 2);      // Mockito：呼び出しを確かめる
+        Assertions.assertThat(order.totalPrice()).isEqualTo(1980); // AssertJ：判定する
+        Mockito.verify(stockRepository).decrease("A001", 2); // Mockito：呼び出しを確かめる
     }
 }

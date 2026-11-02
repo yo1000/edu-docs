@@ -28,12 +28,13 @@ class AssertionExamplesTest {
     @Test
     @DisplayName("文字列")
     void strings() {
-        String message = new OutOfStockException("A001", 1, 3).getMessage();
+        Order order = new Order("A001", 2, 1980); // 注文（商品コード・数量・支払金額）のレコード
+        String text = order.toString();
 
-        Assertions.assertThat(message)
-                .startsWith("在庫が足りません")
+        Assertions.assertThat(text)
+                .startsWith("Order[")
                 .contains("productCode=A001")
-                .endsWith("quantity=3");
+                .endsWith("totalPrice=1980]");
     }
 
     @Test
