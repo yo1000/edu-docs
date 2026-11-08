@@ -9,10 +9,10 @@ const tasks = [
 ];
 
 // 1. 完了済みタスクの件数を求める
-
+tasks.filter((t) => t.done).length;
 
 // 2. 「#1 設計書を読む（完了）」「#2 APIを作る（未完了）」の形式の文字列の配列を作る
-
+tasks.map((t) => `#${t.id} ${t.title}（${t.done ? "完了" : "未完了"}）`);
 
 // 3. idが3のタスクだけを完了にした、新しい配列を作る（元の tasks は変更しない）
-
+tasks.map((t) => (t.id === 3 ? { ...t, done: true } : t));

@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 
 type Task = {
   id: number;
@@ -9,38 +9,64 @@ type Task = {
 type TaskItemProps = {
   task: Task;
   onToggle: (id: number) => void;     // 関数もpropsで渡せる
+  onDelete: (id: number) => void;
 };
 
-function TaskItem({ task, onToggle }: TaskItemProps) {
+function TaskItem({ task, onToggle, onDelete }: TaskItemProps) {
   return (
     <li className={task.done ? "done" : ""}>
       <span>{task.title}</span>
-      <button type="button" onClick={() => onToggle(task.id)}>完了切替</button>
+      <span>
+        <button type="button" onClick={() => onToggle(task.id)}>完了切替</button>
+        <button type="button" onClick={() => onDelete(task.id)}>削除</button>
+      </span>
     </li>
   );
 }
 
+const API = "http://localhost:3001/api/tasks";
+
 export default function App() {
-  const [tasks, setTasks] = useState<Task[]>([
-    { id: 1, title: "設計書を読む", done: true },
-    { id: 2, title: "APIを作る", done: false },
-  ]);
+  const [tasks, setTasks] = useState<Task[]>([]);     // 初期値を空にする
   const [title, setTitle] = useState("");
   const [message, setMessage] = useState("");
 
-  function addTask() {
+  // 最初に1回だけ、APIから一覧を取得する
+  useEffect(() => {
+    async function load() {
+      const res = await fetch(API);
+      setTasks(await res.json());
+    }
+    load();
+  }, []);
+
+  async function addTask() {
     if (!title.trim()) {
       setMessage("タイトルは必須です");
       return;
     }
-    const newTask: Task = { id: Date.now(), title: title.trim(), done: false };
-    setTasks([...tasks, newTask]);
+    const res = await fetch(API, {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ title }),
+    });
+    const created: Task = await res.json();
+    setTasks([...tasks, created]);
     setTitle("");
     setMessage("");
   }
 
-  function toggleTask(id: number) {
-    setTasks(tasks.map((t) => (t.id === id ? { ...t, done: !t.done } : t)));
+  async function toggleTask(id: number) {
+    const res = await fetch(`${API}/${id}`, { method: "PATCH" });
+    const updated: Task = await res.json();
+    setTasks(tasks.map((t) => (t.id === id ? updated : t)));
+  }
+
+  // 演習12の解答例：DELETE /api/tasks/:id を呼んでから一覧から外す
+  async function deleteTask(id: number) {
+    const res = await fetch(`${API}/${id}`, { method: "DELETE" });
+    if (!res.ok) return;
+    setTasks(tasks.filter((t) => t.id !== id));
   }
 
   const openCount = tasks.filter((t) => !t.done).length;
@@ -53,7 +79,7 @@ export default function App() {
 
       <ul className="task-list">
         {tasks.map((task) => (
-          <TaskItem key={task.id} task={task} onToggle={toggleTask} />
+          <TaskItem key={task.id} task={task} onToggle={toggleTask} onDelete={deleteTask} />
         ))}
       </ul>
       <p>未完了：{openCount}件</p>

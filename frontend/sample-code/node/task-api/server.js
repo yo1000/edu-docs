@@ -46,6 +46,16 @@ app.patch("/api/tasks/:id", (req, res) => {
   res.json(task);
 });
 
+// 演習9の解答例：削除
+app.delete("/api/tasks/:id", (req, res) => {
+  const index = tasks.findIndex((t) => t.id === Number(req.params.id));
+  if (index === -1) {
+    return res.status(404).json({ message: "タスクが見つかりません" });
+  }
+  tasks.splice(index, 1);
+  res.status(204).end();
+});
+
 app.listen(3001, () => {
   console.log("http://localhost:3001 で起動しました");
 });
