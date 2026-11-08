@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="UTF-8">
+  <title>タスク一覧（DOM操作）</title>
+  <style>
+    body { font-family: sans-serif; max-width: 480px; margin: 2rem auto; }
+    .task-list { list-style: none; padding: 0; }
+    .task-list li {
+      display: flex; /* 子要素を横に並べる */
+      justify-content: space-between;
+      padding: 8px;
+      border-bottom: 1px solid #ccc;
+    }
+    .task-list li.done span {
+      text-decoration: line-through;
+      color: #888;
+    }
+    #message { color: crimson; }
+  </style>
+</head>
+<body>
+  <h1>タスク一覧</h1>
+  <p id="message"></p>
+
+  <ul class="task-list">
+    <li class="done" data-id="1"><span>設計書を読む</span><button type="button">完了切替</button></li>
+    <li data-id="2"><span>APIを作る</span><button type="button">完了切替</button></li>
+  </ul>
+
+  <form id="add-form">
+    <input type="text" name="title" placeholder="新しいタスク">
+    <button type="submit">追加</button>
+  </form>
+
+  <script>
+    const list = document.querySelector(".task-list");
+    const form = document.querySelector("#add-form");
+    const message = document.querySelector("#message");
+
+    // 完了切替：親の ul にまとめて登録する（後から追加した li にも効く）
+    list.addEventListener("click", (event) => {
+      if (!event.target.matches("button")) return;
+      event.target.closest("li").classList.toggle("done");
+    });
+
+    // 追加
+    form.addEventListener("submit", (event) => {
+      event.preventDefault();   // フォーム本来の動作（送信してページを再読み込み）を止める
+
+      const title = form.elements.title.value.trim();
+      message.textContent = title ? "" : "タイトルは必須です";
+      if (!title) return;
+
+      const span = document.createElement("span");
+      span.textContent = title;
+      const button = document.createElement("button");
+      button.type = "button";
+      button.textContent = "完了切替";
+
+      const li = document.createElement("li");
+      li.append(span, button);
+      list.append(li);
+      form.reset();
+    });
+  </script>
+</body>
+</html>

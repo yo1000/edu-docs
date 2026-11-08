@@ -1,0 +1,14 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="UTF-8">
+  <title>組み合わせたセレクタの詳細度</title>
+  <style>
+    .message { color: gray; }         /* (0, 1, 0) */
+    div.message { color: crimson; }   /* (0, 1, 1) ← 要素が1つ多いので、こちらが勝って赤になる */
+  </style>
+</head>
+<body>
+  <div class="message">メッセージ</div>
+</body>
+</html>

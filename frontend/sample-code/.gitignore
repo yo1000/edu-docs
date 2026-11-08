@@ -1,0 +1,9 @@
+node_modules/
+dist/
+.next/
+*.tsbuildinfo
+next-env.d.ts
+target/
+.DS_Store
+.idea/
+.vscode/

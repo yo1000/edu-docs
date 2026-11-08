@@ -1,0 +1,18 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="UTF-8">
+  <title>!important</title>
+  <style>
+    #message { color: blue; }        /* (1, 0, 0) */
+    p { color: gray !important; }    /* (0, 0, 1) だが !important なので、こちらが勝つ */
+
+    p.note { color: red !important; }   /* (0, 1, 1) ← 詳細度が高いので、こちらが勝つ */
+    p { color: gray !important; }       /* (0, 0, 1) */
+  </style>
+</head>
+<body>
+  <p id="message">id="message" の p</p>
+  <p class="note">class="note" の p</p>
+</body>
+</html>

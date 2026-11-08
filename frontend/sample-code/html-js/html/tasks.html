@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="UTF-8">
+  <title>タスク一覧</title>
+  <style>
+    body { font-family: sans-serif; max-width: 480px; margin: 2rem auto; }
+    .task-list { list-style: none; padding: 0; }
+    .task-list li {
+      display: flex; /* 子要素を横に並べる */
+      justify-content: space-between;
+      padding: 8px;
+      border-bottom: 1px solid #ccc;
+    }
+    .task-list li.done span {
+      text-decoration: line-through;
+      color: #888;
+    }
+    #message { color: crimson; }
+  </style>
+</head>
+<body>
+  <h1>タスク一覧</h1>
+  <p id="message"></p>
+
+  <ul class="task-list">
+    <li class="done" data-id="1"><span>設計書を読む</span><button type="button">完了切替</button></li>
+    <li data-id="2"><span>APIを作る</span><button type="button">完了切替</button></li>
+  </ul>
+
+  <form id="add-form">
+    <input type="text" name="title" placeholder="新しいタスク">
+    <button type="submit">追加</button>
+  </form>
+</body>
+</html>

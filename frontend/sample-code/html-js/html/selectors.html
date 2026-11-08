@@ -1,0 +1,20 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="UTF-8">
+  <title>セレクタと詳細度</title>
+  <style>
+    /* 要素：弱い */
+    li { color: gray; }
+    /* クラス */
+    .done { color: green; }
+    /* 属性：クラスと同じ強さ */
+    [data-id="1"] { color: blue; }
+  </style>
+</head>
+<body>
+  <ul>
+    <li class="done" data-id="1">設計書を読む</li>
+  </ul>
+</body>
+</html>

@@ -1,0 +1,20 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="UTF-8">
+  <title>位置で選ぶ疑似クラス</title>
+  <style>
+    /* 選ばれた要素の背景に色を付けて確かめる。1行ずつコメントにして、どれが選ばれるかを見る */
+    p:first-of-type { background: #fde68a; }
+    p:last-child { background: #bfdbfe; }
+    p:first-child { background: #fecaca; }   /* 最初の子要素は h3 なので、何も選ばれない */
+  </style>
+</head>
+<body>
+  <div class="card">
+    <h3>見出し</h3>
+    <p>1つ目の段落</p>   <!-- p:first-of-type、p:nth-child(2) に当たる -->
+    <p>2つ目の段落</p>   <!-- p:last-child、p:last-of-type に当たる -->
+  </div>
+</body>
+</html>

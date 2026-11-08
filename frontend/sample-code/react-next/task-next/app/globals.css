@@ -1,0 +1,5 @@
+body { font-family: sans-serif; max-width: 480px; margin: 2rem auto; }
+.task-list { list-style: none; padding: 0; }
+.task-list li { display: flex; justify-content: space-between; padding: 8px; border-bottom: 1px solid #ccc; }
+.task-list li.done span { text-decoration: line-through; color: #888; }
+#message { color: crimson; }
